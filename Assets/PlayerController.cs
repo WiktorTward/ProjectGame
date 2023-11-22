@@ -1,36 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float movementSpeed = 5f;
-    [SerializeField] private float MaxSpeed = 10f;
-    [SerializeField] private float stopForce = 10f;
-    private Rigidbody rb;
-    private Vector3 movementDirection;
-    void Start()
-    {
-        rb = GetComponent<Rigidbody>();
-    }
+    public float moveSpeed = 5f;
 
+    public Rigidbody2D rb;
+    public Camera cam;
 
+    Vector2 movement;
+    Vector2 mousePos;
+   
     void Update()
     {
-        movementDirection = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+        movement.x = Input.GetAxisRaw("Horizontal");
+        movement.y = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetButtonUp("Horizontal") || Input.GetButtonUp("Vertical"))
-        {
-            rb.velocity = Vector3.zero;
-        }
+        mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
     }
-
     private void FixedUpdate()
     {
+        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
 
-        if (rb.velocity.magnitude < MaxSpeed)
-        {
-            rb.AddForce(movementDirection * movementSpeed);
-        }
+        //Vector2 lookDir = mousePos - rb.position;
+        //float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg -90f;
+        //rb.rotation = angle;
+
     }
+
 }
