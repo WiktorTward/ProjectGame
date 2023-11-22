@@ -1,54 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float movementSpeed = 5f;
-    [SerializeField] private float MaxSpeed = 10f;
-    [SerializeField] private float stopForce = 10f;
-    private Rigidbody rb;
-    private Vector3 movementDirection;
-    private Animator anim;
-    private SpriteRenderer rbSprite;
+    public float moveSpeed = 5f;
 
-    void Start()
-    {
-        rb = GetComponent<Rigidbody>();
-        anim = GetComponent<Animator>();
-        rbSprite = GetComponent<SpriteRenderer>();
-    }
+    public Rigidbody2D rb;
+    public Camera cam;
 
-
+    Vector2 movement;
+    Vector2 mousePos;
+   
     void Update()
     {
-        movementDirection = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0f);
+        movement.x = Input.GetAxisRaw("Horizontal");
+        movement.y = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetButtonUp("Horizontal") || Input.GetButtonUp("Vertical"))
-        {
-            rb.velocity = Vector3.zero;
-        }
-
-        if (Input.GetAxis("Horizontal") < 0)
-        {
-            rbSprite.flipX = true;
-        }
-        else
-        {
-             rbSprite.flipX = false;
-        }
-
-        anim.SetFloat("Horizontal", movementDirection.x);
-        anim.SetFloat("Vertical", movementDirection.y);
-        anim.SetFloat("Speed", movementDirection.sqrMagnitude);
+        mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
     }
-
     private void FixedUpdate()
     {
+        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
 
-        if (rb.velocity.magnitude < MaxSpeed)
-        {
-            rb.AddForce(movementDirection * movementSpeed);
-        }
+        //Vector2 lookDir = mousePos - rb.position;
+        //float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg -90f;
+        //rb.rotation = angle;
+
     }
+
 }
