@@ -5,14 +5,16 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float movementSpeed = 5f;
-    private Rigidbody2D rb;
-    private Vector2 movementDirection;
+    [SerializeField] private float MaxSpeed = 10f;
+    [SerializeField] private float stopForce = 10f;
+    private Rigidbody rb;
+    private Vector3 movementDirection;
     private Animator anim;
     private SpriteRenderer rbSprite;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         rbSprite = GetComponent<SpriteRenderer>();
     }
@@ -20,8 +22,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        movementDirection.x = Input.GetAxisRaw("Horizontal");
-        movementDirection.y = Input.GetAxisRaw("Vertical");
+        movementDirection = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0f);
 
         if (Input.GetButtonUp("Horizontal") || Input.GetButtonUp("Vertical"))
         {
@@ -44,6 +45,10 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.MovePosition(rb.position + movementDirection * movementSpeed * Time.fixedDeltaTime);
+
+        if (rb.velocity.magnitude < MaxSpeed)
+        {
+            rb.AddForce(movementDirection * movementSpeed);
+        }
     }
 }
