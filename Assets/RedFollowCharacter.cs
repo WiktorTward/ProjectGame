@@ -1,5 +1,4 @@
-﻿// RedFollowCharacter.cs
-using UnityEngine;
+﻿using UnityEngine;
 
 public class RedFollowCharacter : MonoBehaviour
 {

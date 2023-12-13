@@ -1,95 +1,93 @@
 using UnityEngine;
 
-public class GreenFollowCharacter : MonoBehaviour
+public class EnemyWolfMovement : MonoBehaviour
 {
-    public Transform targetCharacter; // Referencja do postaci, za któr¹ pod¹¿amy
+    public Transform targetCharacter;
     public float moveSpeed = 3.0f;
-    public float detectionRadius = 5.0f; // Promieñ detekcji postaci
-    public float escapeRadius = 10.0f; // Dalszy zasiêg, poza którym przeciwnik przestanie pod¹¿aæ
-
+    public float detectionRadius = 5.0f;
+    private SpriteRenderer rbSprite;
     private Animator animator;
+    private Rigidbody2D rb;
+    private bool isCollidingWithPlayer = false;
 
     void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        rbSprite = GetComponent<SpriteRenderer>();
     }
 
-    void Update()
+    Vector2 GetEnemyMovementVector()
     {
         if (targetCharacter != null)
         {
             float distanceToTarget = Vector3.Distance(transform.position, targetCharacter.position);
 
-            // Sprawdzamy, czy postaæ jest w zasiêgu
             if (distanceToTarget <= detectionRadius)
             {
-                // Obliczamy kierunek ruchu
                 Vector3 targetPosition = targetCharacter.position;
                 Vector3 moveDirection = (targetPosition - transform.position).normalized;
 
-                // Ruch w kierunku postaci
-                transform.position += moveDirection * moveSpeed * Time.deltaTime;
-
-                // Aktywacja animacji w zale¿noœci od kierunku ruchu
-                ActivateMovementAnimation(moveDirection);
+                return new Vector2(moveDirection.x, moveDirection.y);
             }
-            else if (distanceToTarget > detectionRadius && distanceToTarget <= escapeRadius)
+        }
+
+        return Vector2.zero;
+    }
+
+    void Update()
+    {
+        if (!isCollidingWithPlayer && targetCharacter != null)
+        {
+            float distanceToTarget = Vector3.Distance(transform.position, targetCharacter.position);
+
+            if (distanceToTarget <= detectionRadius)
             {
-                // Jeœli postaæ przekroczy zasiêg detekcji, ale jest w zasiêgu ucieczki
                 Vector3 targetPosition = targetCharacter.position;
                 Vector3 moveDirection = (targetPosition - transform.position).normalized;
 
-                // Ruch w kierunku postaci, ale z mniejsz¹ prêdkoœci¹ (mo¿esz dostosowaæ)
-                transform.position += moveDirection * (moveSpeed / 2) * Time.deltaTime;
-
-                // Aktywacja animacji w zale¿noœci od kierunku ruchu
-                ActivateMovementAnimation(moveDirection);
+                // Ustawianie prêdkoœci, zamiast bezpoœrednio manipulowaæ transform.position
+                rb.velocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
             }
             else
             {
-                // Postaæ opuœci³a zasiêg ucieczki - zatrzymaj przeciwnika
-                // Mo¿esz równie¿ ustawiæ przeciwnika na konkretn¹ pozycjê, aby unikn¹æ fluktuacji
-                // transform.position = transform.position;
+                // Zatrzymaj przeciwnika, gdy postaæ jest poza zasiêgiem
+                rb.velocity = Vector2.zero;
+            }
+        }
 
-                // Zatrzymaj animacjê ruchu
-                DeactivateMovementAnimation();
+        Vector2 enemyMovement = GetEnemyMovementVector();
+
+        animator.SetFloat("Horizontal", enemyMovement.x);
+        animator.SetFloat("Vertical", enemyMovement.y);
+        animator.SetFloat("speed", enemyMovement.sqrMagnitude);
+
+        if (enemyMovement != Vector2.zero)
+        {
+            if (enemyMovement.x < 0)
+            {
+                rbSprite.flipX = true;
+            }
+            else
+            {
+                rbSprite.flipX = false;
             }
         }
     }
 
-    void ActivateMovementAnimation(Vector3 moveDirection)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        // Aktywacja animacji w zale¿noœci od kierunku ruchu
-        float angle = Vector3.SignedAngle(Vector3.forward, moveDirection, Vector3.up);
-        Debug.Log(angle);
-        if (angle >= -45f && angle < 45f)
+        if (other.CompareTag("Player"))
         {
-            // Ruch w przód
-            animator.SetBool("IsMovingForward", true);
-        }
-        else if (angle >= 45f && angle < 135f)
-        {
-            // Ruch w prawo
-            animator.SetBool("IsMovingRight", true);
-        }
-        else if (angle >= 135f || angle < -135f)
-        {
-            // Ruch w ty³
-            animator.SetBool("IsMovingBackward", true);
-        }
-        else if (angle >= -135f && angle < -45f)
-        {
-            // Ruch w lewo
-            animator.SetBool("IsMovingLeft", true);
+            isCollidingWithPlayer = true;
         }
     }
 
-    void DeactivateMovementAnimation()
+    private void OnTriggerExit2D(Collider2D other)
     {
-        // Zatrzymaj wszystkie animacje ruchu
-        animator.SetBool("IsMovingForward", false);
-        animator.SetBool("IsMovingRight", false);
-        animator.SetBool("IsMovingBackward", false);
-        animator.SetBool("IsMovingLeft", false);
+        if (other.CompareTag("Player"))
+        {
+            isCollidingWithPlayer = false;
+        }
     }
 }
