@@ -9,9 +9,13 @@ public class EnemyWolfMovement : MonoBehaviour
     private Animator animator;
     private Rigidbody2D rb;
     private bool isCollidingWithPlayer = false;
+    //private EnemyShooting enemyShooting;
 
     void Start()
     {
+        
+        //enemyShooting = GetComponent<EnemyShooting>();
+        
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         rbSprite = GetComponent<SpriteRenderer>();
