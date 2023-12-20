@@ -1,34 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed = 5f;
+    [SerializeField] private float movementSpeed = 5f;
+    private Rigidbody2D rb;
+    private Vector2 movementDirection;
+    private Animator anim;
+    private SpriteRenderer rbSprite;
 
-    public Rigidbody2D rb;
-    public Camera cam;
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        rbSprite = GetComponent<SpriteRenderer>();
+    }
 
-    Vector2 movement;
-    Vector2 mousePos;
-   
+
     void Update()
     {
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
+        movementDirection.x = Input.GetAxisRaw("Horizontal");
+        movementDirection.y = Input.GetAxisRaw("Vertical");
 
-        mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
+        if (Input.GetButtonUp("Horizontal") || Input.GetButtonUp("Vertical"))
+        {
+            rb.velocity = Vector3.zero;
+        }
+
+        if (Input.GetAxis("Horizontal") < 0)
+        {
+            rbSprite.flipX = true;
+        }
+        else
+        {
+             rbSprite.flipX = false;
+        }
+
+        anim.SetFloat("Horizontal", movementDirection.x);
+        anim.SetFloat("Vertical", movementDirection.y);
+        anim.SetFloat("Speed", movementDirection.sqrMagnitude);
     }
+
     private void FixedUpdate()
     {
-        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
-
-        //Vector2 lookDir = mousePos - rb.position;
-        //float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg -90f;
-        //rb.rotation = angle;
-
+        rb.MovePosition(rb.position + movementDirection * movementSpeed * Time.fixedDeltaTime);
     }
-
 }
