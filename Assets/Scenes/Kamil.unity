@@ -874,6 +874,7 @@ MonoBehaviour:
   currentHealth: 0
   heartDropChance: 0.5
   heart: {fileID: 5349181058975646104}
+  healthSlider: {fileID: 0}
 --- !u!61 &1132743648
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -961,6 +962,63 @@ MonoBehaviour:
   targetCharacter: {fileID: 0}
   moveSpeed: 0.5
   detectionRadius: 1
+--- !u!1001 &1135212447
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 419814811051365624, guid: c607f33ef8926024ebf0a434456cfacc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.59069
+      objectReference: {fileID: 0}
+    - target: {fileID: 419814811051365624, guid: c607f33ef8926024ebf0a434456cfacc, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.7878419
+      objectReference: {fileID: 0}
+    - target: {fileID: 419814811051365624, guid: c607f33ef8926024ebf0a434456cfacc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 419814811051365624, guid: c607f33ef8926024ebf0a434456cfacc, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 419814811051365624, guid: c607f33ef8926024ebf0a434456cfacc, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 419814811051365624, guid: c607f33ef8926024ebf0a434456cfacc, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 419814811051365624, guid: c607f33ef8926024ebf0a434456cfacc, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 419814811051365624, guid: c607f33ef8926024ebf0a434456cfacc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 419814811051365624, guid: c607f33ef8926024ebf0a434456cfacc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 419814811051365624, guid: c607f33ef8926024ebf0a434456cfacc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8176939317572691330, guid: c607f33ef8926024ebf0a434456cfacc, type: 3}
+      propertyPath: m_Name
+      value: hero-idle-front
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c607f33ef8926024ebf0a434456cfacc, type: 3}
 --- !u!1 &1234903913
 GameObject:
   m_ObjectHideFlags: 0
@@ -1738,6 +1796,8 @@ MonoBehaviour:
   targetCharacter: {fileID: 0}
   moveSpeed: 0.3
   detectionRadius: 1
+  stopFollowRadius: 7
+  minDistance: 2
 --- !u!114 &2064508409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1754,6 +1814,7 @@ MonoBehaviour:
   currentHealth: 0
   heartDropChance: 0.1
   heart: {fileID: 5349181058975646104}
+  healthSlider: {fileID: 0}
 --- !u!50 &2064508410
 Rigidbody2D:
   serializedVersion: 4
@@ -2135,3 +2196,4 @@ SceneRoots:
   - {fileID: 6826389437422876694}
   - {fileID: 1313019401}
   - {fileID: 501220751}
+  - {fileID: 1135212447}
