@@ -15,33 +15,32 @@ public class EnemySpawner1 : MonoBehaviour
 
     private float _timeUntilSpawn;
 
-    public int maxEnemyCount = 5;
+    public int totalEnemyCount = 5; 
+    private int generatedEnemyCount = 0;
 
-    private int currentEnemyCount = 0;
-
-
-    // Start is called before the first frame update
     void Start()
     {
-        
+        SetTimeUntilSpawn();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (currentEnemyCount < maxEnemyCount)
+        if (generatedEnemyCount < totalEnemyCount)
         {
-            _timeUntilSpawn = Time.deltaTime;
+            _timeUntilSpawn -= Time.deltaTime;
 
-            Instantiate(_enemyPrefab, transform.position, Quaternion.identity);
-            SetTimeUntilSpawn();
+            if (_timeUntilSpawn <= 0)
+            {
+                Instantiate(_enemyPrefab, transform.position, Quaternion.identity);
+                SetTimeUntilSpawn();
+                generatedEnemyCount++;
+            }
         }
     }
 
     private void SetTimeUntilSpawn()
     {
         _timeUntilSpawn = Random.Range(_minimumSpawnTime, _maximumSpawnTime);
-
-        currentEnemyCount++;
     }
 }
+
