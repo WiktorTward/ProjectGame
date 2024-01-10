@@ -177,6 +177,7 @@ MonoBehaviour:
   currentHealth: 0
   heartDropChance: 0.1
   heart: {fileID: 0}
+  healthSlider: {fileID: 0}
 --- !u!114 &3186681939090130945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,9 +190,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b2d2c707669d4c4d86298d3ca7896c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetCharacter: {fileID: 0}
+  targetCharacter: {fileID: 7638766164326355561, guid: 44a3005744964cf4fb71c7a242cd256e, type: 3}
   moveSpeed: 0.3
   detectionRadius: 1
+  stopFollowRadius: 7
+  minDistance: 2
 --- !u!95 &1023109410415662647
 Animator:
   serializedVersion: 5

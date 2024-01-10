@@ -35,7 +35,6 @@ public class EnemyWolfMovement : MonoBehaviour
                 return new Vector2(moveDirection.x, moveDirection.y);
             }
         }
-
         // Jeœli przeciwnik nie porusza siê, zwracamy wektor zerowy
         return Vector2.zero;
     }

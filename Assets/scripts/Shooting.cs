@@ -12,6 +12,9 @@ public class NewBehaviourScript : MonoBehaviour
     public float lifeTime = 3f;
     public Vector2 bulletDirection = Vector2.one;
 
+    public AudioSource audioSource;
+    public AudioClip shootingClip;
+
     void Update()
     {  
         if (Input.GetAxisRaw("Horizontal")!= 0 || Input.GetAxisRaw("Vertical") != 0) 
@@ -27,6 +30,7 @@ public class NewBehaviourScript : MonoBehaviour
     }
     void Shoot()
     {
+        audioSource.PlayOneShot(shootingClip);
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         if (bulletDirection.y >= 0) //gora
         {
