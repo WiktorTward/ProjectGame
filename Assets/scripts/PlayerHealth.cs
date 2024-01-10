@@ -1,54 +1,73 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
     public float maxHealth = 100f;
     public float currentHealth = 0f;
+    public Slider healthSlider;
+    public UIManager uiManager;
+    public AudioSource deathSound;
 
-    public Slider healthSlider; //slider do wyœwietlania HP na ekranie
+    bool isDead = false;
+
     void Start()
     {
         currentHealth = maxHealth;
         UpdateHealthUI();
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("heart"))
         {
             GainHealth(10);
-
             Destroy(collision.gameObject);
         }
     }
 
-    public void TakeDamge(int damageAmount)
+    public void TakeDamage(int damageAmount)
     {
-        currentHealth -= damageAmount;
-        UpdateHealthUI();
-        if (currentHealth <= 0) 
+        if (!isDead)
         {
-            currentHealth = 0;
-            EndGame();
+            currentHealth -= damageAmount;
+            UpdateHealthUI();
+            if (currentHealth <= 0)
+            {
+                currentHealth = 0;
+                isDead = true;
+                PlayDeathSound();
+                EndGame();
+            }
         }
-
-        
     }
 
     void UpdateHealthUI()
     {
         healthSlider.value = currentHealth / maxHealth;
     }
+
     void GainHealth(int amount)
     {
         currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
-        UpdateHealthUI();  
+        UpdateHealthUI();
     }
+
     void EndGame()
     {
-        SceneManager.LoadScene("LVL_1");
+        if (uiManager != null)
+        {
+            uiManager.ShowGameOverMenu();
+        }
+    }
+
+    void PlayDeathSound()
+    {
+        if (deathSound != null)
+        {
+            deathSound.Play();
+        }
     }
 }
