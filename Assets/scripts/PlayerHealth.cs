@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public int maxHealth = 100;
-    public int currentHealth = 0;
+    public float maxHealth = 100f;
+    public float currentHealth = 0f;
 
     public Slider healthSlider; //slider do wyœwietlania HP na ekranie
     void Start()
@@ -28,18 +28,19 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamge(int damageAmount)
     {
         currentHealth -= damageAmount;
+        UpdateHealthUI();
         if (currentHealth <= 0) 
         {
             currentHealth = 0;
             EndGame();
         }
 
-        UpdateHealthUI();
+        
     }
 
     void UpdateHealthUI()
     {
-        healthSlider.value = currentHealth / 100;
+        healthSlider.value = currentHealth / maxHealth;
     }
     void GainHealth(int amount)
     {
@@ -48,6 +49,6 @@ public class PlayerHealth : MonoBehaviour
     }
     void EndGame()
     {
-        SceneManager.LoadScene("Przegra³eœ");
+        SceneManager.LoadScene("LVL_1");
     }
 }

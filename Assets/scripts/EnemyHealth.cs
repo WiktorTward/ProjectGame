@@ -1,22 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyHealth : MonoBehaviour
 {
-    public int maxHealth = 50;
-    public int currentHealth;
-    public float heartDropChance = 0.1f;
+    public float maxHealth = 50f;
+    public float currentHealth = 0f;
+    public float heartDropChance = 1f;
     public GameObject heart;
 
+    public Slider healthSlider;
 
     void Start()
     {
         currentHealth = maxHealth;
+        UpdateHealthUI();
     }
     public void TakeDamge(int damageAmount)
     {
         currentHealth -= damageAmount;
+        UpdateHealthUI();
 
         if (currentHealth <= 0)
         {
@@ -27,11 +31,15 @@ public class EnemyHealth : MonoBehaviour
     void Die()
     {
 
-        Destroy(gameObject, 5f);
+        Destroy(gameObject);
 
         GenerateHeart();
     }
 
+    void UpdateHealthUI()
+    {
+        healthSlider.value = currentHealth / maxHealth;
+    }
     void GenerateHeart()
     {
         if (Random.Range(0f, 1f) < heartDropChance && heart != null)
