@@ -40,6 +40,7 @@ public class PlayerHealth : MonoBehaviour
                 isDead = true;
                 PlayDeathSound();
                 EndGame();
+                Destroy(gameObject);
             }
         }
     }
