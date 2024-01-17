@@ -1,9 +1,9 @@
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class NewBehaviourScript : MonoBehaviour
+public class Shooting : MonoBehaviour
 {
     public Transform firePoint;
     public GameObject bulletPrefab;
@@ -37,4 +37,4 @@ public class NewBehaviourScript : MonoBehaviour
         yield return new WaitForSeconds(lifeTime);
         Destroy(bullet);
     }
-}
+}*/

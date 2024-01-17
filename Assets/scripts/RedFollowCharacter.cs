@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿/*using UnityEngine;
 
 public class RedFollowCharacter : MonoBehaviour
 {
@@ -52,4 +52,4 @@ public class RedFollowCharacter : MonoBehaviour
             isCollidingWithPlayer = false;
         }
     }
-}
+}*/

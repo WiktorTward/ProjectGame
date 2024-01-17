@@ -1,16 +1,26 @@
-﻿using UnityEngine;
+﻿
+
+using UnityEngine;
 
 public class EnemyWizardMovement : MonoBehaviour
 {
-    public Transform targetCharacter; // Referencja do postaci, za którą podążamy
+    public Transform targetCharacter;
+    public GameObject projectilePrefab;
+    public Transform firePoint;
     public float moveSpeed = 3.0f;
-    public float detectionRadius = 5.0f; // Promień detekcji postaci
-    public float stopFollowRadius = 7.0f; // Dodatkowy promień, po przekroczeniu którego przeciwnik przestaje śledzić postać
-    public float minDistance = 2.0f; // Minimalny dystans, na jaki przeciwnik utrzymuje od gracza
+    public float rotationSpeed = 200f;
+    public float detectionRadius = 5.0f;
+    public float stopFollowRadius = 7.0f;
+    public float maintainDistance = 3.0f;
+    public float shootCooldown = 2.0f;
+    public float projectileSpeed = 5.0f;
+    private float timeSinceLastShot = 0.0f;
     private SpriteRenderer rbSprite;
     private Animator animator;
     private Rigidbody2D rb;
-    private bool isFollowing = false; // Flaga określająca, czy przeciwnik powinien podążać
+    Vector2 movement;
+
+    private bool isFollowing = false;
 
     void Start()
     {
@@ -21,45 +31,40 @@ public class EnemyWizardMovement : MonoBehaviour
 
     void Update()
     {
-        if (targetCharacter != null)
-        {
-            float distanceToTarget = Vector3.Distance(transform.position, targetCharacter.position);
+        // Ruch postaci
+        Move();
 
-            // Sprawdzamy, czy postać jest w zasięgu
-            if (distanceToTarget <= detectionRadius)
-            {
-                isFollowing = true; // Włączamy tryb śledzenia
-            }
+        // Strzelanie
+        Shoot();
 
-            // Jeśli przeciwnik jest w trybie śledzenia
-            if (isFollowing)
-            {
-                // Obliczamy kierunek ruchu
-                Vector3 targetPosition = targetCharacter.position;
-                Vector3 moveDirection = (targetPosition - transform.position).normalized;
+        // Animacje
+        UpdateAnimations();
+    }
 
-                // Obliczamy dystans do postaci
-                float distanceToPlayer = Vector3.Distance(transform.position, targetCharacter.position);
-
-                // Jeśli dystans do postaci jest większy niż minimalny dystans
-                if (distanceToPlayer > minDistance)
-                {
-                    // Zmniejszamy dystans do postaci do minimalnego dystansu
-                    rb.MovePosition(rb.position + (Vector2)moveDirection * (distanceToPlayer - minDistance) * moveSpeed * Time.deltaTime);
-                }
-            }
-        }
-
+    void Move()
+    {
         Vector2 enemyMovement = GetEnemyMovementVector();
 
-        animator.SetFloat("Horizontal", enemyMovement.x);
-        animator.SetFloat("Vertical", enemyMovement.y);
-        animator.SetFloat("speed", enemyMovement.sqrMagnitude);
+        // Oblicz odległość od postaci-cele
+        float distanceToTarget = Vector3.Distance(transform.position, targetCharacter.position);
 
-        if (enemyMovement != Vector2.zero)
+        // Sprawdź, czy przeciwnik jest w zasięgu wykrywania i czy odległość jest większa niż minimalna utrzymywana odległość
+        if (distanceToTarget <= detectionRadius && distanceToTarget > maintainDistance)
         {
-            // Ustawiamy flipX w zależności od kierunku ruchu
-            rbSprite.flipX = enemyMovement.x < 0;
+            // Ustaw wektor ruchu przeciwnika
+            rb.velocity = enemyMovement * moveSpeed;
+
+            // Obracaj postać w kierunku ruchu
+            //if (enemyMovement != Vector2.zero)
+            //{
+            //    float angle = Mathf.Atan2(enemyMovement.y, enemyMovement.x) * Mathf.Rad2Deg;
+            //    rb.rotation = Mathf.MoveTowardsAngle(rb.rotation, angle, rotationSpeed * Time.deltaTime);
+            //}
+        }
+        else
+        {
+            // Jeśli przeciwnik nie jest w zasięgu lub jest zbyt blisko, zatrzymaj go
+            rb.velocity = Vector2.zero;
         }
     }
 
@@ -69,28 +74,75 @@ public class EnemyWizardMovement : MonoBehaviour
         {
             float distanceToTarget = Vector3.Distance(transform.position, targetCharacter.position);
 
-            // Sprawdzamy, czy postać jest w zasięgu
             if (distanceToTarget <= detectionRadius)
             {
-                // Obliczamy kierunek ruchu
                 Vector3 targetPosition = targetCharacter.position;
                 Vector3 moveDirection = (targetPosition - transform.position).normalized;
-
-                // Zwracamy wektor ruchu przeciwnika
                 return new Vector2(moveDirection.x, moveDirection.y);
             }
             else if (isFollowing && distanceToTarget <= stopFollowRadius)
             {
-                // Jeśli przeciwnik przekroczył pierwotny zasięg, ale jest w nowym zasięgu, nadal śledź postać
                 Vector3 targetPosition = targetCharacter.position;
                 Vector3 moveDirection = (targetPosition - transform.position).normalized;
                 return new Vector2(moveDirection.x, moveDirection.y);
             }
         }
 
-        // Jeśli przeciwnik nie porusza się, zwracamy wektor zerowy
         return Vector2.zero;
     }
-}
 
+    void Shoot()
+    {
+        timeSinceLastShot += Time.deltaTime;
+
+        if (timeSinceLastShot >= shootCooldown)
+        {
+            if (projectilePrefab != null && firePoint != null)
+            {
+                GameObject projectile = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
+                Vector2 shootDirection = (targetCharacter.position - firePoint.position).normalized;
+
+                Rigidbody2D projectileRb = projectile.GetComponent<Rigidbody2D>();
+                if (projectileRb != null)
+                {
+                    projectileRb.velocity = shootDirection * projectileSpeed;
+                }
+                else
+                {
+                    Debug.LogError("Brak komponentu Rigidbody2D na prefabie pocisku.");
+                }
+
+                timeSinceLastShot = 0.0f;
+            }
+            else
+            {
+                Debug.LogError("Prefab pocisku lub punkt strzału nie są zdefiniowane.");
+            }
+        }
+    }
+
+    void UpdateAnimations()
+    {
+        animator.SetFloat("Horizontal", rb.velocity.x);
+        animator.SetFloat("Vertical", rb.velocity.y);
+        animator.SetFloat("speed", rb.velocity.sqrMagnitude);
+
+        if (rb.velocity != Vector2.zero)
+        {
+            if (rb.velocity.x < 0)
+            {
+                rbSprite.flipX = true;
+            }
+            else
+            {
+                rbSprite.flipX = false;
+            }
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        rb.velocity = Vector2.zero;
+    }
+}
 

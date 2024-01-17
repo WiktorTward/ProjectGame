@@ -1,15 +1,15 @@
 using UnityEngine;
 
-public class EnemyWolfMovement : MonoBehaviour
+public class CharacterMovement : MonoBehaviour
 {
-    public Transform targetCharacter; // Referencja do postaci, za któr¹ pod¹¿amy
-    public float moveSpeed = 3.0f;
-    public float detectionRadius = 5.0f; // Promieñ detekcji postaci
+    public Transform target;  // Cel, za którym postaæ pod¹¿a
+    public float moveSpeed = 5f;  // Szybkoœæ poruszania siê postaci
+    public float rotationSpeed = 200f;  // Szybkoœæ obracania postaci
+    public float detectionRadius = 5f;  // Zasiêg wykrywania celu
+    public LayerMask obstacleLayer;  // Warstwa przeszkód
     private SpriteRenderer rbSprite;
     private Animator animator;
     private Rigidbody2D rb;
-    Vector2 movement;
-
 
     void Start()
     {
@@ -18,55 +18,57 @@ public class EnemyWolfMovement : MonoBehaviour
         rbSprite = GetComponent<SpriteRenderer>();
     }
 
-    Vector2 GetEnemyMovementVector()
-    {
-        if (targetCharacter != null)
-        {
-            float distanceToTarget = Vector3.Distance(transform.position, targetCharacter.position);
-
-            // Sprawdzamy, czy postaæ jest w zasiêgu
-            if (distanceToTarget <= detectionRadius)
-            {
-                // Obliczamy kierunek ruchu
-                Vector3 targetPosition = targetCharacter.position;
-                Vector3 moveDirection = (targetPosition - transform.position).normalized;
-
-                // Zwracamy wektor ruchu przeciwnika
-                return new Vector2(moveDirection.x, moveDirection.y);
-            }
-        }
-        // Jeœli przeciwnik nie porusza siê, zwracamy wektor zerowy
-        return Vector2.zero;
-    }
-
     void Update()
     {
-        if (targetCharacter != null)
+        FindPath();
+        // Animacje
+        UpdateAnimations();
+    }
+
+    void FindPath()
+    {
+        Collider2D[] obstacles = Physics2D.OverlapCircleAll(transform.position, detectionRadius, obstacleLayer);
+
+        if (obstacles.Length > 0)
         {
-            float distanceToTarget = Vector3.Distance(transform.position, targetCharacter.position);
-
-            // Sprawdzamy, czy postaæ jest w zasiêgu
-            if (distanceToTarget <= detectionRadius)
+            // Unikaj przeszkód
+            Vector2 avoidanceVector = Vector2.zero;
+            foreach (Collider2D obstacle in obstacles)
             {
-                // Obliczamy kierunek ruchu
-                Vector3 targetPosition = targetCharacter.position;
-                Vector3 moveDirection = (targetPosition - transform.position).normalized;
+                // Dodatkowy warunek sprawdzaj¹cy, czy przeszkoda ma odpowiednie otagowanie
+                if (obstacle.CompareTag("Player"))
+                {
+                    continue; // Ignoruj przeszkody otagowane jako "Player"
+                }
 
-                // Ruch w kierunku postaci
-                transform.position += moveDirection * moveSpeed * Time.deltaTime;
+                avoidanceVector += (Vector2)transform.position - (Vector2)obstacle.transform.position;
             }
+            rb.velocity = avoidanceVector.normalized * moveSpeed;
         }
+        else
+        {
+            // Pod¹¿aj za celem
+            Vector2 direction = (target.position - transform.position).normalized;
+            rb.velocity = direction * moveSpeed;
+        }
+    }
 
-        Vector2 enemyMovement = GetEnemyMovementVector();
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        // Jeœli wystêpuje kolizja, zatrzymaj postaæ
+        rb.velocity = Vector2.zero;
+    }
 
-        animator.SetFloat("Horizontal", enemyMovement.x);
-        animator.SetFloat("Vertical", enemyMovement.y);
-        animator.SetFloat("speed", enemyMovement.sqrMagnitude);
+    void UpdateAnimations()
+    {
+        animator.SetFloat("Horizontal", rb.velocity.x);
+        animator.SetFloat("Vertical", rb.velocity.y);
+        animator.SetFloat("speed", rb.velocity.sqrMagnitude);
 
-        if (enemyMovement != Vector2.zero)
+        if (rb.velocity != Vector2.zero)
         {
             // Ustawiamy flipX w zale¿noœci od kierunku ruchu
-            if (enemyMovement.x < 0)
+            if (rb.velocity.x < 0)
             {
                 rbSprite.flipX = true;
             }
@@ -75,6 +77,5 @@ public class EnemyWolfMovement : MonoBehaviour
                 rbSprite.flipX = false;
             }
         }
-
     }
 }

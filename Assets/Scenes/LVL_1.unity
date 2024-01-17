@@ -1318,6 +1318,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wizard_health
       objectReference: {fileID: 0}
+    - target: {fileID: 5500297051986522120, guid: d902ad83588131e4896f494a17953df5, type: 3}
+      propertyPath: targetCharacter
+      value: 
+      objectReference: {fileID: 1595790504}
     - target: {fileID: 7197755839767641912, guid: d902ad83588131e4896f494a17953df5, type: 3}
       propertyPath: targetCharacter
       value: 
@@ -1335,6 +1339,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 563879315945101086, guid: 4bfd57357e352c6448d29f3b91119026, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 1595790504}
     - target: {fileID: 563879315945101086, guid: 4bfd57357e352c6448d29f3b91119026, type: 3}
       propertyPath: targetCharacter
       value: 
