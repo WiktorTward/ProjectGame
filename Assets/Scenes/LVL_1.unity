@@ -421,6 +421,55 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b84e66a47fe58841a5149dbd25eabdf, type: 3}
+--- !u!1 &891114393
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 891114395}
+  - component: {fileID: 891114394}
+  m_Layer: 0
+  m_Name: spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &891114394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 891114393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b346641374c77e5459ef9afff4a6214e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyPrefab: {fileID: 1227589357651077232, guid: 191485a29a478c745a148d303ecefd32, type: 3}
+  _minimumSpawnTime: 2
+  _maximumSpawnTime: 4
+  totalEnemyCount: 3
+  playerTransform: {fileID: 1971352829}
+--- !u!4 &891114395
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 891114393}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 19.523024, y: -43.175404, z: -0.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1095349578
 GameObject:
   m_ObjectHideFlags: 0
@@ -891,6 +940,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 176091225033194961, guid: 191485a29a478c745a148d303ecefd32, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 176091225033194961, guid: 191485a29a478c745a148d303ecefd32, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 834437590060734775, guid: 191485a29a478c745a148d303ecefd32, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.01701003
@@ -1062,6 +1119,7 @@ SceneRoots:
   - {fileID: 478936214}
   - {fileID: 1095349580}
   - {fileID: 863498092}
-  - {fileID: 6286508002794961160}
   - {fileID: 1179343562667468610}
   - {fileID: 6107044259690790662}
+  - {fileID: 891114395}
+  - {fileID: 6286508002794961160}
