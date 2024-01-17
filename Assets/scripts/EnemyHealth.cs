@@ -7,7 +7,6 @@ public class EnemyHealth : MonoBehaviour
 {
     public float maxHealth = 50f;
     public float currentHealth = 0f;
-    public float heartDropChance = 1f;
     public GameObject heart;
 
     public Slider healthSlider;
@@ -30,6 +29,7 @@ public class EnemyHealth : MonoBehaviour
     }
     void Die()
     {
+        ScoreManager.Instance.AddPoint();
 
         Destroy(gameObject);
 
@@ -42,9 +42,6 @@ public class EnemyHealth : MonoBehaviour
     }
     void GenerateHeart()
     {
-        if (Random.Range(0f, 1f) < heartDropChance && heart != null)
-        {
-            Instantiate(heart, transform.position, Quaternion.identity);
-        }
+        Instantiate(heart, transform.position, Quaternion.identity);
     }
 }
