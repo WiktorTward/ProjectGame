@@ -4,12 +4,13 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - heart
   - Enemy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - snowbackground
   - Water
   - UI
   - 
