@@ -15,7 +15,7 @@ public class EnemySpawner1 : MonoBehaviour
 
     private float _timeUntilSpawn;
 
-    public int totalEnemyCount = 5; // Okre�lona ilo�� przeciwnik�w do wygenerowania
+    public int totalEnemyCount = 5; // Określona ilość przeciwników do wygenerowania
     private int generatedEnemyCount = 0;
 
     public Transform playerTransform; // Referencja do transformacji gracza
@@ -38,10 +38,21 @@ public class EnemySpawner1 : MonoBehaviour
                 // Tworzymy przeciwnika
                 GameObject enemy = Instantiate(_enemyPrefab, transform.position, Quaternion.identity);
 
-                // Przypisujemy transformacj� gracza do przeciwnika
-                enemy.GetComponent<EnemyWizardMovement>().targetCharacter = playerTransform;
-
-
+                // Sprawdzamy, czy przeciwnik ma skrypt EnemyWizardMovement
+                EnemyWizardMovement wizardMovement = enemy.GetComponent<EnemyWizardMovement>();
+                if (wizardMovement != null)
+                {
+                    wizardMovement.targetCharacter = playerTransform;
+                }
+                else
+                {
+                    // Jeżeli nie ma skryptu EnemyWizardMovement, sprawdzamy, czy ma skrypt EnemyWolfMovement
+                    EnemyWolfMovement wolfMovement = enemy.GetComponent<EnemyWolfMovement>();
+                    if (wolfMovement != null)
+                    {
+                        wolfMovement.targetCharacter = playerTransform;
+                    }
+                }
 
                 SetTimeUntilSpawn();
                 generatedEnemyCount++;
