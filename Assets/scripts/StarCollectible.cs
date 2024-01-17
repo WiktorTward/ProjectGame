@@ -10,8 +10,7 @@ public class StarCollectible : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            //ScoreManager.Instance.AddScore(scoreValue);
-
+            ScoreManager.Instance.AddPoint();
             Destroy(gameObject);
         }
     }
