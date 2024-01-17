@@ -32,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.9945, y: 1.001, z: -0.3353}
-  m_LocalScale: {x: 19.7119, y: 19.7119, z: 19.7119}
+  m_LocalScale: {x: 0.82074785, y: 0.82074785, z: 0.82074785}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -177,7 +177,6 @@ MonoBehaviour:
   currentHealth: 0
   heartDropChance: 0.5
   heart: {fileID: 0}
-  healthSlider: {fileID: 0}
 --- !u!95 &1361421581793939342
 Animator:
   serializedVersion: 5

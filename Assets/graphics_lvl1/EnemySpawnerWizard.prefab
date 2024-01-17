@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3821494699241620525}
-  - component: {fileID: 4067023854328205294}
+  - component: {fileID: 7322556121373844691}
   m_Layer: 0
   m_Name: EnemySpawnerWizard
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4067023854328205294
+--- !u!114 &7322556121373844691
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyPrefab: {fileID: 0}
-  _minimumSpawnTime: 0
-  _maximumSpawnTime: 0
+  _minimumSpawnTime: 2
+  _maximumSpawnTime: 4
   totalEnemyCount: 5
-  playerTransform: {fileID: 0}
