@@ -70,12 +70,12 @@ public class ESCKeyMovement : MonoBehaviour
 
     void HandleKeyMovement()
     {
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.S))
         {
             ChangeSelection(1);
         }
 
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.W))
         {
             ChangeSelection(-1);
         }
