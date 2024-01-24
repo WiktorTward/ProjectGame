@@ -33,13 +33,4 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1f; 
     }
 
-    public void RestartLevel()
-    {
-        SceneManager.LoadScene("LVL_1");
-    }
-
-    public void ExitGame()
-    {
-        Application.Quit();
-    }
 }

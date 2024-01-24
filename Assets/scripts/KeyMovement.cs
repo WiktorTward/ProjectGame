@@ -23,6 +23,7 @@ public class KeyMovement : MonoBehaviour
         Selection = 1;
     }
 
+  
     void Update()
     {
 
@@ -34,7 +35,7 @@ public class KeyMovement : MonoBehaviour
             }
             if (Selection > 2)
             {
-                Selection =1;
+                Selection = 1;
             }
         }
 
@@ -46,7 +47,7 @@ public class KeyMovement : MonoBehaviour
             }
             if (Selection < 1)
             {
-                Selection =2;
+                Selection = 2;
             }
         }
 
@@ -71,7 +72,7 @@ public class KeyMovement : MonoBehaviour
             ExitSelected.SetActive(false);
         }
 
-        if ( Selection == 2) 
+        if (Selection == 2)
         {
             StartSprite.SetActive(true);
             startedSelected.SetActive(false);
