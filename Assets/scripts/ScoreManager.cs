@@ -22,33 +22,30 @@ public class ScoreManager : MonoBehaviour
     }
     void Start()
     {
+        
+        score = PlayerPrefs.GetInt("score");
         hiscore = PlayerPrefs.GetInt("hiscore", 0);
         scoreText.text = score.ToString() + " : POINTS";
         highsoreText.text = "HIGHSCORE : " + hiscore.ToString();
-        if (score == 3)
-        {
-            SceneManager.GetActiveScene();
-            SceneManager.LoadScene("LVL_2");
-        }
-        if (score == 30)
-        {
-            SceneManager.GetActiveScene();
-            SceneManager.LoadScene("LVL_3");
-        }
+
     }
 
     public void AddPoint()
     {
         score +=1;
+        PlayerPrefs.SetInt("score", score);
         scoreText.text = score.ToString() + " : POINTS";
         if (hiscore<score)
             PlayerPrefs.SetInt("hiscore", score);
-        if (score == 5)
+
+
+        if (score == 3)
         {
             SceneManager.GetActiveScene();
             SceneManager.LoadScene("LVL_2");
         }
-        if (score == 8)
+
+        if (score == 5)
         {
             SceneManager.GetActiveScene();
             SceneManager.LoadScene("LVL_3");

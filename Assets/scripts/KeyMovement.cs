@@ -55,6 +55,7 @@ public class KeyMovement : MonoBehaviour
         {
             if (Selection == 1)
             {
+                PlayerPrefs.SetInt("score", 0);
                 SceneManager.LoadScene(1);
             }
             else if (Selection == 2)
