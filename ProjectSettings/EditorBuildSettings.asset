@@ -8,10 +8,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Menu.unity
     guid: 7dad8a20a438fa44fa96073450217bc8
-  - enabled: 0
-    path: Assets/Scenes/mapa las.unity
-    guid: 8e3c4cb5e72228b4dbfd30193cac037d
   - enabled: 1
     path: Assets/Scenes/LVL_1.unity
     guid: f05097ae446a4b9499454e0557bfe587
+  - enabled: 1
+    path: Assets/Scenes/LVL_2.unity
+    guid: fad2151cfbcd7dc48835272b4d24e522
+  - enabled: 1
+    path: Assets/Scenes/LVL_3.unity
+    guid: ab35278735b1f0645b33665dea5321fe
   m_configObjects: {}
