@@ -177,7 +177,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 50
   currentHealth: 0
-  heartDropChance: 0.1
   heart: {fileID: 3630104543337935717, guid: 2c908699dddad874cbeae06dcc073072, type: 3}
   healthSlider: {fileID: 5096627099161960055}
 --- !u!114 &5500297051986522120
@@ -193,7 +192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetCharacter: {fileID: 0}
-  moveSpeed: 20
+  moveSpeed: 15
   detectionRadius: 45
   stopFollowRadius: 7
   minDistance: 2
