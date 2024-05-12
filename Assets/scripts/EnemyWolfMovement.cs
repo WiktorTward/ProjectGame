@@ -2,14 +2,13 @@ using UnityEngine;
 
 public class EnemyWolfMovement : MonoBehaviour
 {
-    public Transform targetCharacter; // Referencja do postaci, za któr¹ pod¹¿amy
+    public Transform targetCharacter; // Reference to the character we follow
     public float moveSpeed = 3.0f;
-    public float detectionRadius = 5.0f; // Promieñ detekcji postaci
+    public float detectionRadius = 5.0f; // Radius for character detection
     private SpriteRenderer rbSprite;
     private Animator animator;
     private Rigidbody2D rb;
     Vector2 movement;
-
 
     void Start()
     {
@@ -24,18 +23,18 @@ public class EnemyWolfMovement : MonoBehaviour
         {
             float distanceToTarget = Vector3.Distance(transform.position, targetCharacter.position);
 
-            // Sprawdzamy, czy postaæ jest w zasiêgu
+            // Check if the character is within range
             if (distanceToTarget <= detectionRadius)
             {
-                // Obliczamy kierunek ruchu
+                // Calculate movement direction
                 Vector3 targetPosition = targetCharacter.position;
                 Vector3 moveDirection = (targetPosition - transform.position).normalized;
 
-                // Zwracamy wektor ruchu przeciwnika
+                // Return enemy movement vector
                 return new Vector2(moveDirection.x, moveDirection.y);
             }
         }
-        // Jeœli przeciwnik nie porusza siê, zwracamy wektor zerowy
+        // If enemy is not moving, return zero vector
         return Vector2.zero;
     }
 
@@ -45,14 +44,14 @@ public class EnemyWolfMovement : MonoBehaviour
         {
             float distanceToTarget = Vector3.Distance(transform.position, targetCharacter.position);
 
-            // Sprawdzamy, czy postaæ jest w zasiêgu
+            // Check if the character is within range
             if (distanceToTarget <= detectionRadius)
             {
-                // Obliczamy kierunek ruchu
+                // Calculate movement direction
                 Vector3 targetPosition = targetCharacter.position;
                 Vector3 moveDirection = (targetPosition - transform.position).normalized;
 
-                // Ruch w kierunku postaci
+                // Move towards the character
                 transform.position += moveDirection * moveSpeed * Time.deltaTime;
             }
         }
@@ -65,7 +64,7 @@ public class EnemyWolfMovement : MonoBehaviour
 
         if (enemyMovement != Vector2.zero)
         {
-            // Ustawiamy flipX w zale¿noœci od kierunku ruchu
+            // Set flipX based on movement direction
             if (enemyMovement.x < 0)
             {
                 rbSprite.flipX = true;
@@ -75,6 +74,6 @@ public class EnemyWolfMovement : MonoBehaviour
                 rbSprite.flipX = false;
             }
         }
-
     }
 }
+
